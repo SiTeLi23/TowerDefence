@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  impactEffect: {fileID: 9094596344943772038, guid: c077b0b8b129c1441adefc6bb43346f7, type: 3}
+  damageAmount: 5
 --- !u!135 &857002218500633129
 SphereCollider:
   m_ObjectHideFlags: 0

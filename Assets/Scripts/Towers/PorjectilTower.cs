@@ -14,6 +14,10 @@ public class PorjectilTower : MonoBehaviour
     private Transform target;
     public Transform launcherModel;
 
+    public GameObject shotEffect;
+
+    public float rotateSpeed;
+
     void Start()
     {
         theTower = GetComponent<Tower>();
@@ -27,7 +31,7 @@ public class PorjectilTower : MonoBehaviour
         if (target != null) 
         {
             //smooth rotation
-            launcherModel.rotation =  Quaternion.Slerp(launcherModel.rotation, Quaternion.LookRotation(target.position - transform.position),5f*Time.deltaTime);
+            launcherModel.rotation =  Quaternion.Slerp(launcherModel.rotation, Quaternion.LookRotation(target.position - transform.position),rotateSpeed*Time.deltaTime);
 
             //limit x and y rotation to 0, Euler is transforming Quaternion into normal Vector 3,that's why we are not directly use LauncherModel.rotation.y
             //but  to use the eulerAngles.y to transform it into normal vector 3 version's y
@@ -43,7 +47,10 @@ public class PorjectilTower : MonoBehaviour
 
             firePoint.LookAt(target);
 
+            //shot projectile
             Instantiate(projectile, firePoint.position, firePoint.rotation);
+            //shot effect 
+            Instantiate(shotEffect, firePoint.position, firePoint.rotation);
         }
 
         #region Find The Closet Enemy
