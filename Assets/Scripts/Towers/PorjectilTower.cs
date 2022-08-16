@@ -31,8 +31,8 @@ public class PorjectilTower : MonoBehaviour
         if (target != null) 
         {
             //smooth rotation
-            launcherModel.rotation =  Quaternion.Slerp(launcherModel.rotation, Quaternion.LookRotation(target.position - transform.position),rotateSpeed*Time.deltaTime);
-
+            launcherModel.rotation =  Quaternion.Slerp(launcherModel.rotation, Quaternion.LookRotation((target.position - transform.position).normalized),rotateSpeed*Time.deltaTime);
+ 
             //limit x and y rotation to 0, Euler is transforming Quaternion into normal Vector 3,that's why we are not directly use LauncherModel.rotation.y
             //but  to use the eulerAngles.y to transform it into normal vector 3 version's y
             launcherModel.rotation = Quaternion.Euler(0f,launcherModel.rotation.eulerAngles.y , 0f);

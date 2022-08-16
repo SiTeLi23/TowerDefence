@@ -29,7 +29,10 @@ public class TowerManager : MonoBehaviour
     //we are currently in placing tower mode
     public bool isPlacing;
 
-    public LayerMask whatIsPlacment;
+    public LayerMask whatIsPlacment,whatIsObstacle;
+
+    //top 15 percent of the screen should be a safe area.
+    public float topSafePercent = 15f;
 
 
     void Start()
@@ -42,15 +45,35 @@ public class TowerManager : MonoBehaviour
     {
         if (isPlacing) 
         {
+            //the fake tower which haven't been built
             indicator.position = GetGridPosition();
 
-            if (Input.GetMouseButtonDown(0)) 
+            RaycastHit hit;
+
+            //make sure the the 15% screen height at top will be safe click place
+            if (Input.mousePosition.y > Screen.height * (1f - (topSafePercent) / 100f)) 
             {
-                isPlacing = false;
-
-                Instantiate(activeTower, indicator.position, activeTower.transform.rotation);
-
                 indicator.gameObject.SetActive(false);
+            }
+            else if (Physics.Raycast(indicator.position + new Vector3(0f, -2f, 0f), Vector3.up, out hit, 10f, whatIsObstacle))
+            {
+                    //if the indicator is overlap with an obstacle, do not show indicator
+                indicator.gameObject.SetActive(false);
+            }
+            else
+            {
+
+                indicator.gameObject.SetActive(true);
+
+                //if you click left mouse button, you can instantiate tower model
+                if (Input.GetMouseButtonDown(0))
+                {
+                    isPlacing = false;
+
+                    Instantiate(activeTower, indicator.position, activeTower.transform.rotation);
+
+                    indicator.gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -65,7 +88,11 @@ public class TowerManager : MonoBehaviour
 
         Tower placeTower = Instantiate(activeTower);
         placeTower.enabled = false; // make sure the tower not attacking when hovering but not build yet
+        placeTower.GetComponent<Collider>().enabled = false;
         indicator = placeTower.transform;
+
+        placeTower.rangeModel.SetActive(true);
+        placeTower.rangeModel.transform.localScale = new Vector3(placeTower.range, 1f, placeTower.range);
     }
 
 

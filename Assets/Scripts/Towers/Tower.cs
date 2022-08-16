@@ -17,6 +17,8 @@ public class Tower : MonoBehaviour
     [HideInInspector]
     public bool enemiesUpdated;
 
+    public GameObject rangeModel;
+
     void Start()
     {
         checkCounter = checkTime;
