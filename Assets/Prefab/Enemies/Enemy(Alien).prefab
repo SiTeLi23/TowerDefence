@@ -539,8 +539,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bf3af9db39e9ed4fa10cef8fb065e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalHealth: 15
   healthBar: {fileID: 1332494124}
+  moneyOnDeath: 50
+  totalHealth: 15
 --- !u!1001 &15770427811868206
 PrefabInstance:
   m_ObjectHideFlags: 0

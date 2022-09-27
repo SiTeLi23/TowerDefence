@@ -19,6 +19,8 @@ public class Tower : MonoBehaviour
 
     public GameObject rangeModel;
 
+    public int cost = 100;
+
     void Start()
     {
         checkCounter = checkTime;

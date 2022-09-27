@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (theCastle.currentHealth <= 0) return;
+        if (!LevelManager.instance.levelActive) return;
 
         //if enemy not reaching the end, continue moving to next point
         if (!reachEnd)
