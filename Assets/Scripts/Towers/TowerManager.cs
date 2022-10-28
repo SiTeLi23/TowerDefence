@@ -18,6 +18,10 @@ public class TowerManager : MonoBehaviour
 
     public LayerMask whatIsPlacment, whatIsObstacle;
 
+    [HideInInspector]
+    public Tower selectedTower;
+
+    public GameObject selectedTowerEffect;
 
     private void Awake()
     {
@@ -75,6 +79,8 @@ public class TowerManager : MonoBehaviour
                         indicator.gameObject.SetActive(false);
 
                         UIController.instance.notEnoughMoneyWarning.SetActive(false);
+
+                        AudioManager.instance.PlaySFX(8);
                     }
             }
         }
@@ -111,5 +117,14 @@ public class TowerManager : MonoBehaviour
 
 
         return location;
+    }
+
+    public void MoveTowerSelectionEffect() 
+    {
+        if (selectedTower != null) 
+        {
+            selectedTowerEffect.transform.position = selectedTower.transform.position;
+            selectedTowerEffect.SetActive(true);
+        }
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3989337118197002269}
   - component: {fileID: 1422698240}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: RangeIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,8 @@ GameObject:
   - component: {fileID: 4064994144234044105}
   - component: {fileID: 4064994144234044103}
   - component: {fileID: 3147644802655766908}
-  m_Layer: 8
+  - component: {fileID: -2901628463711030597}
+  m_Layer: 11
   m_Name: Cannon Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 3
+  fireRate: 1
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 64
@@ -103,6 +105,8 @@ MonoBehaviour:
   checkTime: 0.2
   enemiesUpdated: 0
   rangeModel: {fileID: 1847741352798902695}
+  cost: 100
+  upgrader: {fileID: 0}
 --- !u!114 &4064994144234044103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +121,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 857002218500633141, guid: 04aa07bced49f53419b5b6fa52e9ff54, type: 3}
   firePoint: {fileID: 4064994145472111362}
-  timeBetweenShot: 1
   launcherModel: {fileID: 4064994144674158439}
   shotEffect: {fileID: 9094596344943772038, guid: c077b0b8b129c1441adefc6bb43346f7, type: 3}
   rotateSpeed: 60
@@ -135,6 +138,41 @@ CapsuleCollider:
   m_Height: 2.79
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2901628463711030597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4064994144234044104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd9f4368697ec641b6d01b4c8b9fc45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangeUpgrades:
+  - amount: 3.5
+    cost: 50
+  - amount: 4
+    cost: 100
+  - amount: 4.5
+    cost: 150
+  currentRangeUpgrade: 0
+  hasRangedUpgrade: 1
+  fireRateUpgrades:
+  - amount: 0.9
+    cost: 100
+  - amount: 0.8
+    cost: 200
+  - amount: 0.7
+    cost: 300
+  currentFireRateUpgrade: 0
+  hasFireRateUpgrade: 1
+  fireRateText: 'Upgrade
+
+    Fire
+
+    Rate'
 --- !u!1 &4064994144674158438
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064994144674158439}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064994145472111362}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fire Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064994145987325282}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,15 +416,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1cbe11cd199309b42a8e51fe84ea913b, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4607668393258877731, guid: 1cbe11cd199309b42a8e51fe84ea913b, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7687833984507530404, guid: 1cbe11cd199309b42a8e51fe84ea913b, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cbe11cd199309b42a8e51fe84ea913b, type: 3}
@@ -452,11 +490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7d5004f948e1f41448fa04c06cc7ce17, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4607668393258877731, guid: 7d5004f948e1f41448fa04c06cc7ce17, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d5004f948e1f41448fa04c06cc7ce17, type: 3}
@@ -522,11 +560,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 29bf718e64e939c44bd2ed5182542e60, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4607668393258877731, guid: 29bf718e64e939c44bd2ed5182542e60, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29bf718e64e939c44bd2ed5182542e60, type: 3}

@@ -17,6 +17,7 @@ public class Projectile : MonoBehaviour
     {
         theRb = GetComponent<Rigidbody>();
         theRb.velocity = transform.forward * moveSpeed ;
+        AudioManager.instance.PlaySFX(2);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,6 +29,7 @@ public class Projectile : MonoBehaviour
         }
         Instantiate(impactEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
+        AudioManager.instance.PlaySFX(6);
     }
 
     //check if specific object leave the screnn 

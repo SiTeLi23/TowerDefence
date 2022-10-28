@@ -5,7 +5,7 @@ using UnityEngine;
 public class SimpleEnemySpawner : MonoBehaviour
 {
 
-    public EnemyController enemyToSpawn;
+    public EnemyController[] enemiesToSpawn;
 
     public Transform spawnPoint;
 
@@ -35,7 +35,7 @@ public class SimpleEnemySpawner : MonoBehaviour
             {
                 spawnCounter = timeBetweenSpawns;
                 //instantiate an enemy and assigned a target castle and path to it
-                Instantiate(enemyToSpawn, spawnPoint.position, Quaternion.identity).SetUp(theCastle,thePath);
+                Instantiate(enemiesToSpawn[Random.Range(0,enemiesToSpawn.Length)], spawnPoint.position, Quaternion.identity).SetUp(theCastle,thePath);
                 amountToSpawn--;
             }
         }

@@ -7,6 +7,8 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy Movement")]
     public float moveSpeed;
+    [HideInInspector]
+    public float speedMod = 1f;
 
 
     [Header("Path Tracking")]
@@ -21,7 +23,9 @@ public class EnemyController : MonoBehaviour
     public float damagePerAttack;
     private float attackCounter;
 
-   
+    [Header("Enemy type")]
+    public bool isFlying;
+    public float flyHeight;
    
 
     // Start is called before the first frame update
@@ -37,6 +41,12 @@ public class EnemyController : MonoBehaviour
         }
 
         attackCounter = timeBetweenAttacks;
+
+        if (isFlying) 
+        {
+            transform.position += Vector3.up * flyHeight;
+            currentPoint = thePath.points.Length - 1;
+        }
     }
 
     // Update is called once per frame
@@ -47,32 +57,63 @@ public class EnemyController : MonoBehaviour
         //if enemy not reaching the end, continue moving to next point
         if (!reachEnd)
         {
-
-            //move to current point
-            transform.position = Vector3.MoveTowards(transform.position, thePath.points[currentPoint].position, moveSpeed * Time.deltaTime);
-            //rotate enemy to face current point
-            transform.LookAt(thePath.points[currentPoint]);
-
-            //if we are close enough to current point, move to the next point
-            if (Vector3.Distance(transform.position, thePath.points[currentPoint].position) < .01f)
+            if (!isFlying)
             {
-                currentPoint += 1;
+                //move to current point
+                transform.position = Vector3.MoveTowards(transform.position, thePath.points[currentPoint].position, moveSpeed * Time.deltaTime * speedMod);
+                //rotate enemy to face current point
+                transform.LookAt(thePath.points[currentPoint]);
 
-                //if the enemy reach the end
-                if (currentPoint >= thePath.points.Length)
+                //if we are close enough to current point, move to the next point
+                if (Vector3.Distance(transform.position, thePath.points[currentPoint].position) < .01f)
                 {
-                    reachEnd = true;
-                    selectedAttackPoint = Random.Range(0, theCastle.attackPoints.Length);
+                    currentPoint += 1;
+
+                    //if the enemy reach the end
+                    if (currentPoint >= thePath.points.Length)
+                    {
+                        reachEnd = true;
+                        selectedAttackPoint = Random.Range(0, theCastle.attackPoints.Length);
+                    }
+
+
                 }
+            }
+            else 
+            {
+                //fly to current point
+                transform.position = Vector3.MoveTowards(transform.position, thePath.points[currentPoint].position + (Vector3.up*flyHeight), moveSpeed * Time.deltaTime * speedMod);
+                //rotate enemy to face current point
+                transform.LookAt(thePath.points[currentPoint]);
+
+                //if we are close enough to current point, fly to the next point
+                if (Vector3.Distance(transform.position, thePath.points[currentPoint].position + (Vector3.up * flyHeight)) < .01f)
+                {
+                    currentPoint += 1;
+
+                    //if the enemy reach the end
+                    if (currentPoint >= thePath.points.Length)
+                    {
+                        reachEnd = true;
+                        selectedAttackPoint = Random.Range(0, theCastle.attackPoints.Length);
+                    }
 
 
+                }
             }
         }
             //if enemey reach the end , start attack the target
         else 
         {
-            transform.position = Vector3.MoveTowards(transform.position, theCastle.attackPoints[selectedAttackPoint].position, moveSpeed * Time.deltaTime);
-
+            if (!isFlying)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, theCastle.attackPoints[selectedAttackPoint].position, moveSpeed * Time.deltaTime * speedMod);
+            }
+            else 
+            {
+                transform.position = Vector3.MoveTowards(transform.position, theCastle.attackPoints[selectedAttackPoint].position + (Vector3.up*flyHeight), moveSpeed * Time.deltaTime * speedMod);
+                transform.LookAt(theCastle.transform.position);
+            }
             attackCounter -= Time.deltaTime;
             if (attackCounter <= 0) 
             {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     public float range = 3f;
-
+    public float fireRate;
     public LayerMask whatIsEnemy;
     private Collider[] colliderInRange;
 
@@ -20,15 +20,19 @@ public class Tower : MonoBehaviour
     public GameObject rangeModel;
 
     public int cost = 100;
+    [HideInInspector]
+    public TowerUpgradeController upgrader;
 
     void Start()
     {
         checkCounter = checkTime;
+        upgrader = GetComponent<TowerUpgradeController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         #region Tower Checking Enemy In Range
 
         //each frame when the loop start, enemisUpdated should be set back to false
@@ -53,6 +57,29 @@ public class Tower : MonoBehaviour
             enemiesUpdated = true;
         }
 
-        #endregion
+    #endregion
+
+        if(TowerManager.instance.selectedTower == this) 
+        {
+            rangeModel.SetActive(true);
+            rangeModel.transform.localScale = new Vector3(range, 1f, range);
+        }
+
+    }        
+
+    private void OnMouseDown()
+    {
+        if (!LevelManager.instance.levelActive) return;
+
+        if(TowerManager.instance.selectedTower != null) 
+        {
+            TowerManager.instance.selectedTower.rangeModel.SetActive(false);
+        }
+
+        TowerManager.instance.selectedTower = this;
+
+        UIController.instance.OpenTowerUpGradePanel();
+
+        TowerManager.instance.MoveTowerSelectionEffect();
     }
 }

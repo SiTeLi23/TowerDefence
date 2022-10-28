@@ -39,6 +39,12 @@ public class Castle : MonoBehaviour
         {
             currentHealth = 0;
             gameObject.SetActive(false);
+
+            AudioManager.instance.PlaySFX(3);
+        }
+        else 
+        {
+            AudioManager.instance.PlaySFX(4);
         }
 
         //update health bar

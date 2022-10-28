@@ -15,7 +15,6 @@ public class MoneyManager : MonoBehaviour
             Destroy(gameObject);
         else
             instance = this;
-
         #endregion
     }
 

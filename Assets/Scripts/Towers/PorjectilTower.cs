@@ -8,7 +8,6 @@ public class PorjectilTower : MonoBehaviour
 
     public GameObject projectile;
     public Transform firePoint;
-    public float timeBetweenShot = 1f;
     float shotCounter;
 
     private Transform target;
@@ -21,7 +20,7 @@ public class PorjectilTower : MonoBehaviour
     void Start()
     {
         theTower = GetComponent<Tower>();
-        shotCounter = timeBetweenShot;
+        shotCounter = theTower.fireRate;
     }
 
     // Update is called once per frame
@@ -43,7 +42,7 @@ public class PorjectilTower : MonoBehaviour
         if (shotCounter <= 0 && target!=null) 
         {
 
-            shotCounter = timeBetweenShot;
+            shotCounter = theTower.fireRate;
 
             firePoint.LookAt(target);
 

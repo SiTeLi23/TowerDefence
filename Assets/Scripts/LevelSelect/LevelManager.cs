@@ -23,26 +23,36 @@ public class LevelManager : MonoBehaviour
     public bool levelActive;
     private bool levelVictory;
 
-    private Castle theCastle;
+    private Castle[] theCastles;
 
     public List<EnemyHealthController> ActiveEnemies = new List<EnemyHealthController>();
 
-    private SimpleEnemySpawner enemySpawner;
+    private EnemyWaveSpawner[] waveSpawners;
+
+    public string nextLevel;
 
     // Start is called before the first frame update
     void Start()
     {
-        theCastle = FindObjectOfType<Castle>();
-        enemySpawner = FindObjectOfType<SimpleEnemySpawner>();
+        theCastles = FindObjectsOfType<Castle>();
+        waveSpawners = FindObjectsOfType<EnemyWaveSpawner>();
         levelActive = true;
+
+        AudioManager.instance.PlayBGM();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (levelActive) 
-        { 
-           if(theCastle.currentHealth <= 0) 
+        {
+            float totalCastleHealth = 0;
+            foreach(Castle cast in theCastles) 
+            {
+                totalCastleHealth += cast.currentHealth;
+            }
+
+           if(totalCastleHealth <= 0) 
             {
                 levelActive = false;
                 levelVictory = false;
@@ -51,13 +61,31 @@ public class LevelManager : MonoBehaviour
                 UIController.instance.towerButtons.SetActive(false);
             }
 
-           if(ActiveEnemies.Count == 0 && enemySpawner.amountToSpawn == 0) 
+            bool waveComplete = true;
+            foreach(EnemyWaveSpawner waveSpawn in waveSpawners) 
+            {
+              if(waveSpawn.wavesToSpawn.Count > 0) 
+                {
+                    //we still need to spawn
+                    waveComplete = false;
+                }
+            }
+
+           if(ActiveEnemies.Count == 0 && waveComplete) 
             {
                 levelActive = false;
                 levelVictory = true;
 
                 UIController.instance.levelCompleteScreen.SetActive(true);
                 UIController.instance.towerButtons.SetActive(false);
+            }
+
+            if (!levelActive) 
+            {
+                UIController.instance.levelFailedScreen.SetActive(!levelVictory);
+                UIController.instance.levelCompleteScreen.SetActive(levelVictory);
+
+                UIController.instance.CloseTowerUpGradePanel();
             }
         
         }
